@@ -9,11 +9,6 @@ class bignum {
 	bool isPositive;
 
 public:
-	bignum() 
-	{
-		value = "";
-		isPositive = true;
-	}
 
 	bignum(int n) 
 	{
@@ -57,7 +52,48 @@ public:
 				}
 				value += s[i];
 			}
-		}						//positive
+		}														//positive
+
+		for(int i=0;i<value.length();i++);
+			//delete the beginning zeroes;
+	}
+
+
+	bignum() 
+	{
+		value = "";
+		isPositive = true;
+	}
+
+	~bignum() {
+		value = "";				//for nothing 
+	}
+
+	bool operator==(const bignum b)				//comaparing 2 bignums
+	{
+		if(isPositive == b.isPositive and value == b.value)
+			return true;
+		else
+			return false;
+	}
+
+	bool operator==(int b)			//comparing bignum and int
+	{
+		if(b>0 and isPositive==false)
+			return false;
+		else if(b<0 and isPositive==true)
+			return false;
+
+		b = abs(b);			//comapring negative numbers
+
+		for(int i=value.length()-1;i>=0 and b!=0 ;i--,b/=10)
+		{
+			if(b%10 != int(value[i] - '0'))
+				return false;
+		}
+		if(b==0)
+			return true;
+		return false;
 	}
 
 	void print()
@@ -72,8 +108,11 @@ public:
 
 int main()
 {
-	bignum a(0),b(-10),c("-234");
+	bignum a("125"),b(125),c("-234");
 	a.print();
 	b.print();
 	c.print();
+	bool checks[] = {a==b,b==c,c==-234};
+	//comapring bignums and numbers
+	cout<<checks[0]<<checks[1]<<checks[2]<<endl;
 }
