@@ -18,6 +18,9 @@ public:
 			isPositive = true;					//sign of the number
 		value = "";
 		n = abs(n);
+		if(n==0)
+			value = "0";
+
 		while(n!=0)
 		{
 			value = (char)((n%10)+'0') + value;
@@ -96,6 +99,37 @@ public:
 		return false;
 	}
 
+	bool operator>(bignum b)
+	{
+		if(*this == b)
+			return false;
+		
+		if(isPositive==true and b.isPositive == false)		//first number is positive and second is negative
+			return true;
+		else if(isPositive==false and b.isPositive==true)		//first number is negative and second is positive
+			return false;
+		else 
+		{
+			if(isPositive and b.isPositive)		//both are positive
+			{
+				if(value.length() > b.value.length())
+					return true;
+				else if(value.length() < b.value.length())
+					return false;
+				else 
+				{
+					for(int i=0;i<value.length();i++)
+					{
+						if(value[i] > b.value[i])
+							return true;
+						else if(value[i] < b.value[i])
+							return false;
+					}
+				}
+			}
+		}
+	}
+
 	void print()
 	{
 		if(value=="")
@@ -108,7 +142,8 @@ public:
 
 int main()
 {
-	bignum a("125"),b(125),c("-234");
+	//testcases
+	bignum a("125"),b(0),c("-234");
 	a.print();
 	b.print();
 	c.print();
